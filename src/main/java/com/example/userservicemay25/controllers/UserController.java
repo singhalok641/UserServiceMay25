@@ -4,6 +4,7 @@ import com.example.userservicemay25.dtos.*;
 import com.example.userservicemay25.models.Token;
 import com.example.userservicemay25.models.User;
 import com.example.userservicemay25.services.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -24,7 +25,7 @@ public class UserController {
 //    }
 
     @PostMapping("/signup")
-    public UserDto signUp(@RequestBody SignUpRequestDto requestDto) {
+    public UserDto signUp(@RequestBody SignUpRequestDto requestDto) throws JsonProcessingException {
         User user = userService.signUp(
                 requestDto.getName(),
                 requestDto.getEmail(),
@@ -50,5 +51,10 @@ public class UserController {
     @PreAuthorize("hasAnyAuthority('SCOPE_ADMIN')")
     public ResponseEntity<String> adminEndpoint(JwtAuthenticationToken token) {
         return ResponseEntity.ok("Hello " + token.getName() + "! You are accessing a admin endpoint");
+    }
+
+    @GetMapping("/sample")
+    public void sampleAPI() {
+        System.out.println("This is the sample API request");
     }
 }
